@@ -55,6 +55,7 @@ def create(args):
         os.mkdir(out_directory)
 
     color_data = prepare_tiles(size, args.in_directory, out_directory)
+    color_data_copy = color_data.copy()
 
     print colored.green("Generating mosaic for you ...")
 
@@ -77,6 +78,8 @@ def create(args):
 
             color = image_average_color(image.crop(box))
             tile = nearest_neighbour(color, color_data)
+            if not color_data:
+                color_data = color_data_copy.copy()
 
             image_mosaic.paste(tile, box)
     finally:
